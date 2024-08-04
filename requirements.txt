@@ -1,8 +1,15 @@
-# !pip install -Uqqq pip --progress-bar off
-bitsandbytes==0.39.0 
-torch==2.0.1 
-transformers
-# git+https://github.com/huggingface/accelerate.git@c9fbb71
-datasets==2.12.0 
+requirements = """
+pip==23.1.2  # Adjust the version of pip as per the installed version
+bitsandbytes==0.39.0
+torch==2.0.1
+git+https://github.com/huggingface/transformers.git@e03a9cc
+git+https://github.com/huggingface/peft.git@42a184f
+git+https://github.com/huggingface/accelerate.git@c9fbb71
+datasets==2.12.0
 loralib==0.1.1
 einops==0.6.1
+scipy
+"""
+
+with open('requirements.txt', 'w') as f:
+    f.write(requirements)

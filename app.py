@@ -1,4 +1,5 @@
 import streamlit as st
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 import json
 import os
 from pprint import pprint
@@ -6,8 +7,6 @@ from pprint import pprint
 import bitsandbytes as bnb
 import pandas as pd
 import torch
-# from datasets import load_dataset
-# from huggingface_hub import notebook_login
 from peft import (
     LoraConfig,
     PeftConfig,
@@ -83,13 +82,33 @@ def generate_response(question: str) -> str:
 
 
 
+st.title("Ecommerce Q/A Chatbot 🛒")
 
-# Streamlit app
-st.title("AI Chatbot")
-question = st.text_input("Enter your question:")
-if st.button("Get Response"):
-    if question:
-        response = generate_response(question)
-        st.write(response)
-    else:
-        st.write("Please enter a question.")
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = [
+        AIMessage(content="Hi, How may I help you today?"),
+    ]
+
+# conversation
+for message in st.session_state.chat_history:
+    if isinstance(message, AIMessage):
+        with st.chat_message("AI"):
+            st.write(message.content)
+    elif isinstance(message, HumanMessage):
+        with st.chat_message("Human"):
+            st.write(message.content)
+
+user_prompt = st.chat_input()
+# answer="Clearance and final sale items are typically non-returnable and non-refundable. Please review the product description or contact our customer support team for more information.If you have any questions about our return policy, please contact our customer support team for assistance. We will be happy to assist you with the process."
+if user_prompt is not None and user_prompt != "":
+    st.session_state.chat_history.append(HumanMessage(content=user_prompt))
+
+    with st.chat_message("Human"):
+        st.markdown(user_prompt)
+
+    with st.chat_message("AI"):
+        with st.spinner("Thinking..."):
+            response = generate_response(user_prompt)
+            st.write(response)
+
+    st.session_state.chat_history.append(AIMessage(content=response))

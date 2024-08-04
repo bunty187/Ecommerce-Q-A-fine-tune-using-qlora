@@ -5,8 +5,8 @@ In this project, we focused on enhancing an e-commerce Q&A system by fine-tuning
 ## Getting Started
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/IndiaLaw-Q-A-Intelligent-Legal-Guidance.git
-   cd IndiaLaw-Q-A-Intelligent-Legal-Guidance
+   git clone https://github.com/bunty187/Ecommerce-Q-A-fine-tune-using-qlora.git
+   cd Ecommerce-Q-A-fine-tune-using-qlora
    ```
 2. Install the libraries:
    ```
